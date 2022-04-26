@@ -1,5 +1,8 @@
 from PIL import Image, ImageEnhance
-from skimage import io
+from skimage import io, data, color, draw
+import numpy as np
+
+io.use_plugin('pil')
 
 # reading image
 postmark_image = Image.open("./images/postmark.png", mode="r")
@@ -55,3 +58,29 @@ print(f"RGB pixel {coordinates} coordinate value : {postmark_image.getpixel(coor
 
 # scikit-image
 # reading an image
+io_image_arr = io.imread("./images/postmark.png")
+print(io_image_arr)
+io.imsave("./images/io_save.png", io_image_arr)
+
+io.imsave("./images/camera.png", data.camera())
+
+io.imsave("./images/astro.png", data.astronaut())
+
+io.imsave("./images/hsv_astro.png", color.rgb2hsv(data.astronaut()))
+
+io.imsave("./images/grey_astro.png", color.rgb2gray(data.astronaut()))
+
+# draw module
+
+# ellipse
+image_draw = np.zeros((100, 100), dtype=np.uint8)
+x, y = draw.ellipse(50, 50, 10, 20)
+image_draw[x, y] = 200
+io.imsave("./images/draw_smth.png", image_draw)
+
+# polygon
+r = np.array([10, 25, 80, 50])
+c = np.array([10, 60, 40, 10])
+x, y = draw.polygon(r, c)
+image_draw[x, y] = 250
+io.imsave("./images/draw_smth_2.png", image_draw)
